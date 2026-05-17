@@ -19,7 +19,7 @@
                     <p class="text-sm text-gray-500 font-medium">Masuk untuk memulai atau mengelola portofolio.</p>
                 </div>
 
-                <x-filament-panels::form wire:submit="authenticate">
+                <form wire:submit="authenticate">
                     {{ $this->form }}
 
                     <button 
@@ -31,7 +31,7 @@
                             <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
                         </svg>
                     </button>
-                </x-filament-panels::form>
+                </form>
 
                 <div class="mt-10 text-center">
                     <p class="text-xs text-gray-400 font-medium">Sistem portofolio terproteksi. Hubungi Admin jika ada masalah.</p>
