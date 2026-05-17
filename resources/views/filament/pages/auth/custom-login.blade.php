@@ -38,51 +38,51 @@
                 </div>
             </div>
         </div>
+
+        <style>
+            /* Override default Filament Form Styles to match the sleek white look */
+            .fi-form {
+                gap: 1.5rem !important;
+            }
+            .fi-fo-field-wrp-label {
+                display: flex;
+            }
+            .fi-fo-field-wrp-label span {
+                color: #6b7280 !important; /* gray-500 */
+                font-size: 0.75rem !important;
+                font-weight: 700 !important;
+                text-transform: uppercase !important;
+                letter-spacing: 0.05em !important;
+            }
+            .fi-input-wrp {
+                box-shadow: none !important;
+                border-radius: 0.75rem !important;
+                background-color: #f9fafb !important;
+                border: 1px solid #f3f4f6 !important;
+                transition: all 0.2s ease !important;
+            }
+            .fi-input-wrp:focus-within {
+                background-color: #ffffff !important;
+                border-color: #6366f1 !important;
+                box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1) !important;
+            }
+            .fi-input {
+                padding: 0.75rem 1rem !important;
+                color: #111827 !important;
+            }
+            .fi-checkbox-input {
+                border-radius: 50% !important;
+                border-color: #d1d5db !important;
+                color: #6366f1 !important;
+            }
+            .fi-checkbox-input:checked {
+                background-color: #6366f1 !important;
+                border-color: #6366f1 !important;
+            }
+            /* Hide the default Filament login button since we use our own */
+            .fi-btn-primary {
+                display: none !important;
+            }
+        </style>
     </div>
-    
-    <style>
-        /* Override default Filament Form Styles to match the sleek white look */
-        .fi-form {
-            gap: 1.5rem !important;
-        }
-        .fi-fo-field-wrp-label {
-            display: flex;
-        }
-        .fi-fo-field-wrp-label span {
-            color: #6b7280 !important; /* gray-500 */
-            font-size: 0.75rem !important;
-            font-weight: 700 !important;
-            text-transform: uppercase !important;
-            letter-spacing: 0.05em !important;
-        }
-        .fi-input-wrp {
-            box-shadow: none !important;
-            border-radius: 0.75rem !important;
-            background-color: #f9fafb !important;
-            border: 1px solid #f3f4f6 !important;
-            transition: all 0.2s ease !important;
-        }
-        .fi-input-wrp:focus-within {
-            background-color: #ffffff !important;
-            border-color: #6366f1 !important;
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1) !important;
-        }
-        .fi-input {
-            padding: 0.75rem 1rem !important;
-            color: #111827 !important;
-        }
-        .fi-checkbox-input {
-            border-radius: 50% !important;
-            border-color: #d1d5db !important;
-            color: #6366f1 !important;
-        }
-        .fi-checkbox-input:checked {
-            background-color: #6366f1 !important;
-            border-color: #6366f1 !important;
-        }
-        /* Hide the default Filament login button since we use our own */
-        .fi-btn-primary {
-            display: none !important;
-        }
-    </style>
 </x-filament-panels::layout.base>
