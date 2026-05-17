@@ -124,17 +124,20 @@ export default function Portfolio({ user, projects, experiences, skills }) {
                             <Code className="w-8 h-8 text-green-400" />
                             <h2 className="text-3xl font-bold">Tech Stack & Skills</h2>
                         </div>
-                        <div className="flex flex-wrap gap-4">
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                             {skills.map((skill) => (
                                 <motion.div 
                                     key={skill.id}
-                                    whileHover={{ y: -5, scale: 1.05 }}
-                                    className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-gray-900/80 border border-gray-800 shadow-lg backdrop-blur-sm"
+                                    whileHover={{ y: -5 }}
+                                    className="flex flex-col items-start p-6 rounded-2xl bg-gray-900/50 border border-gray-800 hover:border-gray-700 hover:bg-gray-800/50 transition-all shadow-lg backdrop-blur-sm"
                                 >
-                                    {skill.logo && (
-                                        <img src={`/storage/${skill.logo}`} alt={skill.name} className="w-8 h-8 object-contain" />
+                                    <div className="p-3 bg-gray-950 rounded-xl border border-gray-800/60 mb-4 shadow-inner">
+                                        {getTechIcon(skill.name)}
+                                    </div>
+                                    <h3 className="font-bold text-xl text-white mb-1">{skill.name}</h3>
+                                    {skill.category && (
+                                        <span className="text-sm text-gray-500 font-medium">{skill.category}</span>
                                     )}
-                                    <span className="font-semibold text-gray-200">{skill.name}</span>
                                 </motion.div>
                             ))}
                         </div>

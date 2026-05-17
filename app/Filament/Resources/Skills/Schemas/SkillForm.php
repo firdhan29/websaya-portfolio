@@ -15,10 +15,16 @@ class SkillForm
                     ->label('Skill Name')
                     ->placeholder('e.g., Vue.js, Laravel, React')
                     ->required(),
-                \Filament\Forms\Components\FileUpload::make('logo')
-                    ->label('Skill Logo')
-                    ->image()
-                    ->directory('skills')
+                \Filament\Forms\Components\Select::make('category')
+                    ->label('Category')
+                    ->options([
+                        'Frontend' => 'Frontend',
+                        'Backend' => 'Backend',
+                        'Fullstack' => 'Fullstack',
+                        'Database' => 'Database',
+                        'Design' => 'Design',
+                        'Other' => 'Other',
+                    ])
                     ->required(),
             ]);
     }

@@ -16,8 +16,15 @@ class SkillsTable
             ->columns([
                 TextColumn::make('name')
                     ->searchable(),
-                \Filament\Tables\Columns\ImageColumn::make('logo')
-                    ->label('Icon/Logo'),
+                TextColumn::make('category')
+                    ->badge()
+                    ->color(fn (string $state): string => match ($state) {
+                        'Frontend' => 'info',
+                        'Backend' => 'success',
+                        'Database' => 'warning',
+                        'Fullstack' => 'danger',
+                        default => 'gray',
+                    }),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
