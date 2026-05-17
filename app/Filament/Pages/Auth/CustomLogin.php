@@ -2,7 +2,7 @@
 
 namespace App\Filament\Pages\Auth;
 
-use Filament\Pages\Auth\Login as BaseAuth;
+use Filament\Auth\Pages\Login as BaseAuth;
 
 class CustomLogin extends BaseAuth
 {
