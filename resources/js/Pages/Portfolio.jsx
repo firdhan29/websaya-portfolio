@@ -27,6 +27,8 @@ const getDynamicIcon = (name) => {
   if (normalized.includes('tailwind')) return SiIcons.SiTailwindcss;
   if (normalized.includes('postgres')) return SiIcons.SiPostgresql;
   if (normalized.includes('node')) return SiIcons.SiNodedotjs;
+  if (normalized.includes('pyton') || normalized.includes('python')) return SiIcons.SiPython;
+  if (normalized === 'net' || normalized.includes('dotnet')) return SiIcons.SiDotnet;
   if (normalized.includes('js') || normalized.includes('javascript')) return SiIcons.SiJavascript;
   if (normalized.includes('php')) return SiIcons.SiPhp;
   if (normalized.includes('mysql')) return SiIcons.SiMysql;
@@ -46,7 +48,8 @@ const getDynamicColor = (name) => {
   if (normalized.includes('vue') || normalized.includes('veu') || normalized.includes('node') || normalized.includes('mongo')) return "text-emerald-500 bg-emerald-500/10";
   if (normalized.includes('react') || normalized.includes('mysql') || normalized.includes('postgres') || normalized.includes('tailwind') || normalized.includes('php') || normalized.includes('css')) return "text-blue-500 bg-blue-500/10";
   if (normalized.includes('laravel') || normalized.includes('html') || normalized.includes('angular')) return "text-red-500 bg-red-500/10";
-  if (normalized.includes('python') || normalized.includes('js') || normalized.includes('javascript')) return "text-yellow-500 bg-yellow-500/10";
+  if (normalized.includes('python') || normalized.includes('pyton') || normalized.includes('js') || normalized.includes('javascript')) return "text-yellow-500 bg-yellow-500/10";
+  if (normalized.includes('net') || normalized.includes('dotnet')) return "text-purple-500 bg-purple-500/10";
   return "text-zinc-100 bg-zinc-100/10";
 };
 
