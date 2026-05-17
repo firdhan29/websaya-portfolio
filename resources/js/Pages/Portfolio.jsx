@@ -77,15 +77,15 @@ export default function Portfolio({ user, projects, experiences, skills }) {
         : [];
 
     return (
-        <div className="min-h-screen bg-background text-zinc-100 font-sans selection:bg-brand-dark selection:text-white overflow-x-hidden">
+        <div className="min-h-screen bg-background text-zinc-100 font-sans selection:bg-brand-dark selection:text-white overflow-hidden relative">
             <Head title={`Portfolio | ${user?.name || 'Developer'}`} />
             
             {/* Navbar (Floating Pill) */}
             <motion.nav
                 initial={{ y: -100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.8 }}
-                className="fixed top-6 left-1/2 -translate-x-1/2 z-50 px-4 py-3 rounded-full border border-white/10 bg-black/50 backdrop-blur-xl flex items-center gap-6 md:gap-8 shadow-xl"
+                transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
+                className="fixed top-6 inset-x-0 mx-auto w-max z-50 px-6 py-3 rounded-full border border-white/10 bg-black/40 backdrop-blur-xl flex items-center justify-center gap-6 md:gap-8 shadow-2xl"
             >
                 {navItems.map((item, index) => (
                     <a
@@ -93,7 +93,7 @@ export default function Portfolio({ user, projects, experiences, skills }) {
                     href={item.href}
                     className="group flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-white transition-colors"
                     >
-                    <item.icon className="w-4 h-4" />
+                    <item.icon className="w-4 h-4 group-hover:scale-110 transition-transform" />
                     <span className="hidden md:inline">{item.name}</span>
                     </a>
                 ))}
@@ -101,14 +101,22 @@ export default function Portfolio({ user, projects, experiences, skills }) {
 
             <main>
                 {/* Hero Section */}
-                <section id="about" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-                    <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand/20 rounded-full blur-[120px] pointer-events-none" />
-                    <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[120px] pointer-events-none" />
+                <section id="about" className="relative min-h-screen flex items-center justify-center">
+                    <motion.div 
+                        animate={{ scale: [1, 1.1, 1], rotate: [0, 5, -5, 0] }}
+                        transition={{ duration: 15, repeat: Infinity, repeatType: "reverse" }}
+                        className="absolute top-1/4 left-1/4 w-[30rem] h-[30rem] bg-brand/10 rounded-full blur-[120px] pointer-events-none" 
+                    />
+                    <motion.div 
+                        animate={{ scale: [1, 1.2, 1], rotate: [0, -10, 10, 0] }}
+                        transition={{ duration: 20, repeat: Infinity, repeatType: "reverse" }}
+                        className="absolute bottom-1/4 right-1/4 w-[30rem] h-[30rem] bg-purple-500/10 rounded-full blur-[120px] pointer-events-none" 
+                    />
 
                     <div className="z-10 max-w-5xl px-6 w-full flex flex-col items-center text-center mt-20">
                         <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.8, ease: "easeOut" }}
                         className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 backdrop-blur-sm mb-8"
                         >
