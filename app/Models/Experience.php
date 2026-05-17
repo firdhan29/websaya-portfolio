@@ -20,5 +20,6 @@ class Experience extends Model
         'start_date' => 'date',
         'end_date' => 'date',
         'is_current' => 'boolean',
+        'attachment' => 'array',
     ];
 }

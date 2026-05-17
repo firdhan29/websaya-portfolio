@@ -22,6 +22,11 @@ class ExperienceResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'company';
 
+    public static function getNavigationGroup(): ?string
+    {
+        return 'Portfolio Content';
+    }
+
     public static function form(Schema $schema): Schema
     {
         return ExperienceForm::configure($schema);
@@ -43,8 +48,6 @@ class ExperienceResource extends Resource
     {
         return [
             'index' => ListExperiences::route('/'),
-            'create' => CreateExperience::route('/create'),
-            'edit' => EditExperience::route('/{record}/edit'),
         ];
     }
 }

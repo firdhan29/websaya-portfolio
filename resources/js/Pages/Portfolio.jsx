@@ -139,7 +139,7 @@ export default function Portfolio({ user, projects, experiences }) {
                                             <h3 className="font-bold text-xl text-gray-100">{exp.position}</h3>
                                             <p className="text-indigo-400 font-medium">{exp.company}</p>
                                         </div>
-                                        {exp.attachment && (
+                                        {exp.attachment && typeof exp.attachment === 'string' && (
                                             <a href={`/storage/${exp.attachment}`} target="_blank" rel="noreferrer" className="p-2 bg-gray-800 rounded-lg hover:bg-gray-700 text-gray-400 hover:text-white transition-colors" title="View Certificate/Document">
                                                 <Download className="w-4 h-4" />
                                             </a>
@@ -151,7 +151,21 @@ export default function Portfolio({ user, projects, experiences }) {
                                         {exp.is_current ? 'Present' : (exp.end_date ? new Date(exp.end_date).toLocaleDateString('id-ID', { month: 'short', year: 'numeric' }) : 'Unknown')}
                                     </p>
                                     {exp.description && (
-                                        <p className="text-gray-400 whitespace-pre-line">{exp.description}</p>
+                                        <p className="text-gray-400 whitespace-pre-line mb-4">{exp.description}</p>
+                                    )}
+
+                                    {/* Image Slider / Gallery */}
+                                    {exp.attachment && Array.isArray(exp.attachment) && exp.attachment.length > 0 && (
+                                        <div className="mt-2 flex gap-3 overflow-x-auto snap-x snap-mandatory pb-4 custom-scrollbar">
+                                            {exp.attachment.map((img, i) => (
+                                                <a href={`/storage/${img}`} target="_blank" rel="noreferrer" key={i} className="snap-center shrink-0 w-56 h-36 rounded-xl overflow-hidden border border-gray-700/50 group relative">
+                                                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm z-10">
+                                                        <span className="text-white text-sm font-medium">Click to View</span>
+                                                    </div>
+                                                    <img src={`/storage/${img}`} alt="Attachment" className="w-full h-full object-cover hover:scale-110 transition-transform duration-500" loading="lazy" />
+                                                </a>
+                                            ))}
+                                        </div>
                                     )}
                                 </div>
                             </div>

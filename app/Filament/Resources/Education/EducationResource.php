@@ -22,6 +22,11 @@ class EducationResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'institution';
 
+    public static function getNavigationGroup(): ?string
+    {
+        return 'Portfolio Content';
+    }
+
     public static function form(Schema $schema): Schema
     {
         return EducationForm::configure($schema);
@@ -43,8 +48,6 @@ class EducationResource extends Resource
     {
         return [
             'index' => ListEducation::route('/'),
-            'create' => CreateEducation::route('/create'),
-            'edit' => EditEducation::route('/{record}/edit'),
         ];
     }
 }

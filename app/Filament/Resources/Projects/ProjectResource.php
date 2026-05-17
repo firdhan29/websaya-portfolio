@@ -22,6 +22,11 @@ class ProjectResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'title';
 
+    public static function getNavigationGroup(): ?string
+    {
+        return 'Portfolio Content';
+    }
+
     public static function form(Schema $schema): Schema
     {
         return ProjectForm::configure($schema);
@@ -43,8 +48,6 @@ class ProjectResource extends Resource
     {
         return [
             'index' => ListProjects::route('/'),
-            'create' => CreateProject::route('/create'),
-            'edit' => EditProject::route('/{record}/edit'),
         ];
     }
 }

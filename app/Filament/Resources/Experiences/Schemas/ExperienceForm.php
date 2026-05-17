@@ -26,8 +26,13 @@ class ExperienceForm
                 Toggle::make('is_current')
                     ->required(),
                 \Filament\Forms\Components\FileUpload::make('attachment')
+                    ->label('Attachments (Photos/Documents)')
                     ->directory('attachments')
-                    ->acceptedFileTypes(['application/pdf', 'image/jpeg', 'image/png']),
+                    ->acceptedFileTypes(['application/pdf', 'image/jpeg', 'image/png'])
+                    ->multiple()
+                    ->reorderable()
+                    ->panelLayout('grid')
+                    ->columnSpanFull(),
             ]);
     }
 }
