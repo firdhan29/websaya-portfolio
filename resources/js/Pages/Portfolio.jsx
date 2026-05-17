@@ -134,7 +134,7 @@ export default function Portfolio({ user, projects, experiences, skills }) {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-                        className="text-xl md:text-2xl text-zinc-400 max-w-2xl mb-4"
+                        className="text-lg md:text-xl text-zinc-400 font-light leading-relaxed max-w-3xl mb-4"
                         >
                         {user?.summary || "Full Stack Developer & Software Engineer"}
                         </motion.p>
