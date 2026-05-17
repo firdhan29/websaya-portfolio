@@ -11,7 +11,7 @@ class CustomLogin extends BaseAuth
     {
         return new \Illuminate\Support\HtmlString('
             <style>
-                main {
+                body {
                     background: linear-gradient(-45deg, #fbcfe8, #c7d2fe, #e0e7ff, #ede9fe) !important;
                     background-size: 400% 400% !important;
                     animation: gradientBG 15s ease infinite !important;
@@ -21,41 +21,13 @@ class CustomLogin extends BaseAuth
                     50% { background-position: 100% 50%; }
                     100% { background-position: 0% 50%; }
                 }
-                /* Target the main simple page card */
-                .fi-simple-main-ctn > div {
-                    backdrop-filter: blur(16px) saturate(180%) !important;
-                    -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
-                    background-color: rgba(255, 255, 255, 0.65) !important;
+                .fi-simple-main-ctn {
+                    backdrop-filter: blur(20px) !important;
+                    background-color: rgba(255, 255, 255, 0.7) !important;
+                    border-radius: 1rem !important;
+                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+                    padding: 2rem !important;
                     border: 1px solid rgba(255, 255, 255, 0.5) !important;
-                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15) !important;
-                    border-radius: 1.5rem !important;
-                    transform: translateY(0);
-                    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
-                    animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
-                }
-                .fi-simple-main-ctn > div:hover {
-                    transform: translateY(-5px) scale(1.01) !important;
-                    box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.2) !important;
-                }
-                @keyframes slideUp {
-                    from { opacity: 0; transform: translateY(30px); }
-                    to { opacity: 1; transform: translateY(0); }
-                }
-                /* Button animation */
-                .fi-btn-primary {
-                    transition: all 0.3s ease !important;
-                }
-                .fi-btn-primary:hover {
-                    transform: scale(1.03) !important;
-                    box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4) !important;
-                }
-                /* Logo glow */
-                .fi-logo {
-                    filter: drop-shadow(0 4px 6px rgba(99, 102, 241, 0.3)) !important;
-                    transition: transform 0.3s ease !important;
-                }
-                .fi-logo:hover {
-                    transform: scale(1.05) !important;
                 }
             </style>
             <div class="text-3xl font-extrabold tracking-tight text-gray-900 mt-4 mb-1">
