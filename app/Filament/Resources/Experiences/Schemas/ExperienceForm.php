@@ -40,6 +40,7 @@ class ExperienceForm
                 \Filament\Forms\Components\FileUpload::make('attachment')
                     ->label('Attachments (Photos/Documents)')
                     ->directory('attachments')
+                    ->disk('public')
                     ->acceptedFileTypes(['application/pdf', 'image/jpeg', 'image/png'])
                     ->multiple()
                     ->reorderable()
