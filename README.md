@@ -14,11 +14,11 @@ A high-performance, modern personal portfolio website built with a robust and sc
 ## ✨ Features
 
 - **Dynamic SPA Frontend:** Blazing fast navigation without page reloads using Inertia.js.
-- **Bespoke UI/UX:** Premium dark-mode aesthetic with smooth scroll animations via Framer Motion.
+- **Bespoke UI/UX:** Ultra-premium jet-black dark mode (`#050505`) with ambient glow blobs, floating pill-shaped navbar, and center-aligned Hero section. Animations powered by Framer Motion.
 - **Admin Dashboard (SPA Mode):** A fully functional, GUI-based CMS using Filament PHP with fully collapsible sidebar and SPA page transitions for managing Projects, Experiences, Education, and Skills.
 - **AI CV Parser Integration:** Automatically populate profile data, experience, and education by uploading a PDF CV, powered by Google Gemini 2.5 Flash API.
 - **Dynamic Image Gallery:** Attach multiple photos to experiences/projects and automatically render them as an interactive swipeable slider in the frontend.
-- **Smart Tech Stack Matching:** Intelligent tech stack engine that auto-corrects typos (e.g., "veujs" -> "Vue") and renders full-color authentic SVG logos.
+- **Smart Tech Stack Matching:** Intelligent tech stack engine that auto-corrects typos (e.g., "veujs" -> "Vue") and renders full-color authentic SVG logos via SimpleIcons (`react-icons/si`).
 - **Live Visitor Tracking:** Automatically logs page visits and visualizes them on the admin dashboard.
 
 ## 🚀 Installation Guide
