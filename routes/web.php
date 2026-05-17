@@ -14,7 +14,10 @@ Route::get('/', function (\Illuminate\Http\Request $request) {
 
     $user = \App\Models\User::first();
     $projects = \App\Models\Project::orderBy('created_at', 'desc')->get();
-    $experiences = \App\Models\Experience::orderBy('start_date', 'desc')->get();
+    $experiences = \App\Models\Experience::orderBy('is_current', 'desc')
+        ->orderBy('end_date', 'desc')
+        ->orderBy('start_date', 'desc')
+        ->get();
     $skills = \App\Models\Skill::all();
 
     return Inertia::render('Portfolio', [

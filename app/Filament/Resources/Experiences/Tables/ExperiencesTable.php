@@ -14,6 +14,7 @@ class ExperiencesTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->defaultSort('is_current', 'desc')
             ->columns([
                 TextColumn::make('company')
                     ->searchable(),
