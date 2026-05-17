@@ -19,21 +19,43 @@ const Linkedin = ({ className }) => (
 );
 
 const technologyIcons = {
-    'laravel': <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Laravel.svg" alt="Laravel" className="w-6 h-6" />,
-    'react.js': <Globe className="w-6 h-6 text-blue-400" />,
-    'vue.js': <Globe className="w-6 h-6 text-green-500" />,
-    'tailwind css': <img src="https://upload.wikimedia.org/wikipedia/commons/d/d5/Tailwind_CSS_Logo.svg" alt="Tailwind" className="w-6 h-6" />,
-    'mysql': <Database className="w-6 h-6 text-orange-500" />,
-    'postgresql': <Database className="w-6 h-6 text-blue-300" />,
-    'php': <Server className="w-6 h-6 text-indigo-400" />,
-    'javascript': <Terminal className="w-6 h-6 text-yellow-400" />,
-    'typescript': <Terminal className="w-6 h-6 text-blue-500" />,
-    'node.js': <Server className="w-6 h-6 text-green-500" />,
+    'laravel': <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/laravel/laravel-original.svg" alt="Laravel" className="w-8 h-8 object-contain" />,
+    'react': <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" alt="React" className="w-8 h-8 object-contain" />,
+    'vue': <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/vuejs/vuejs-original.svg" alt="Vue" className="w-8 h-8 object-contain" />,
+    'vuejs': <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/vuejs/vuejs-original.svg" alt="Vue" className="w-8 h-8 object-contain" />,
+    'veujs': <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/vuejs/vuejs-original.svg" alt="Vue" className="w-8 h-8 object-contain" />, // Fallback for typos
+    'nextjs': <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nextjs/nextjs-original.svg" alt="Next.js" className="w-8 h-8 object-contain invert" />,
+    'tailwind': <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/tailwindcss/tailwindcss-original.svg" alt="Tailwind" className="w-8 h-8 object-contain" />,
+    'mysql': <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/mysql/mysql-original.svg" alt="MySQL" className="w-8 h-8 object-contain" />,
+    'postgresql': <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original.svg" alt="PostgreSQL" className="w-8 h-8 object-contain" />,
+    'php': <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/php/php-original.svg" alt="PHP" className="w-8 h-8 object-contain" />,
+    'javascript': <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="JavaScript" className="w-8 h-8 object-contain" />,
+    'typescript': <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg" alt="TypeScript" className="w-8 h-8 object-contain" />,
+    'nodejs': <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/nodejs/nodejs-original.svg" alt="Node.js" className="w-8 h-8 object-contain" />,
+    'python': <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="Python" className="w-8 h-8 object-contain" />,
+    'html': <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original.svg" alt="HTML" className="w-8 h-8 object-contain" />,
+    'css': <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original.svg" alt="CSS" className="w-8 h-8 object-contain" />,
+    'git': <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/git/git-original.svg" alt="Git" className="w-8 h-8 object-contain" />,
+    'docker': <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original.svg" alt="Docker" className="w-8 h-8 object-contain" />,
 };
 
 const getTechIcon = (techName) => {
-    const key = techName.toLowerCase();
-    return technologyIcons[key] || <Code className="w-6 h-6 text-gray-400" />;
+    if (!techName) return <Code className="w-8 h-8 text-gray-400" />;
+    
+    // Normalize string: lowercase and remove spaces, dots, dashes
+    const key = techName.toLowerCase().replace(/[\s\.\-]/g, '');
+    
+    // Exact match after normalization
+    if (technologyIcons[key]) return technologyIcons[key];
+    
+    // Check if normalized key contains any of our known icon keys (e.g. "laravel12" includes "laravel")
+    for (const [iconKey, icon] of Object.entries(technologyIcons)) {
+        if (key.includes(iconKey)) {
+            return icon;
+        }
+    }
+
+    return <Code className="w-8 h-8 text-gray-500" />;
 };
 
 export default function Portfolio({ user, projects, experiences, skills }) {
