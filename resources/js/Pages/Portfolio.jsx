@@ -97,7 +97,7 @@ const AutoSlider = ({ images, onClick, isZoomed = false, index = 0 }) => {
                     exit={{ opacity: 0, x: -20 }}
                     transition={{ duration: 0.4 }}
                     className={`absolute inset-0 w-full h-full transform transition-transform duration-700 ease-out ${
-                        isZoomed ? "object-contain" : "object-contain object-top group-hover:scale-105"
+                        isZoomed ? "object-contain" : "object-cover group-hover:scale-105"
                     }`}
                 />
             </AnimatePresence>
@@ -363,11 +363,16 @@ export default function Portfolio({ user, projects, experiences, skills }) {
 
                 {/* Projects Section */}
                 <section id="projects" className="py-24 px-6 max-w-5xl mx-auto w-full relative z-10">
-                    <div className="mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4">Selected Work</h2>
-                        <p className="text-zinc-400 max-w-2xl">
-                            A collection of projects I've worked on, ranging from full-stack applications to open-source contributions.
-                        </p>
+                    <div className="mb-16 flex items-end justify-between">
+                        <div>
+                            <h2 className="text-3xl md:text-4xl font-bold mb-4">Featured Work</h2>
+                            <p className="text-zinc-400 max-w-2xl">
+                                A selection of my recent projects showcasing complex logic translated into seamless user experiences.
+                            </p>
+                        </div>
+                        <button className="hidden sm:flex items-center gap-2 text-sm text-brand hover:text-brand-light transition-colors">
+                            View all projects <ExternalLink className="w-4 h-4" />
+                        </button>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -377,37 +382,34 @@ export default function Portfolio({ user, projects, experiences, skills }) {
                                 initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "-100px" }}
-                                transition={{ duration: 0.6, delay: 0 }}
+                                transition={{ duration: 0.6, delay: i * 0.1 }}
                                 className={`group relative rounded-3xl overflow-hidden border border-white/10 bg-white/[0.02] ${i === 2 ? 'md:col-span-2' : ''}`}
                             >
                                 <AutoSlider images={project.images} onClick={() => setZoomedImage(project.images)} index={i} />
                                 
-                                <div className="p-8 relative z-20 bg-black/80 backdrop-blur-md border-t border-white/5 flex flex-col h-full">
-                                    <h3 className="text-2xl font-bold mb-3 group-hover:text-brand-light transition-colors">{project.title}</h3>
+                                <div className="p-8 relative z-20 bg-background/80 backdrop-blur-md border-t border-white/5 flex flex-col h-full">
+                                    <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-brand-light transition-colors">{project.title}</h3>
                                     <p className="text-zinc-400 mb-6 leading-relaxed">
                                         {project.description}
                                     </p>
                                     
                                     <div className="flex items-center justify-between mt-auto">
                                         <div className="flex flex-wrap gap-2">
-                                            {project.technologies && Array.isArray(project.technologies) && project.technologies.map((tech, idx) => {
-                                                const TechIcon = getDynamicIcon(tech) || Code2;
-                                                return (
-                                                    <span key={idx} title={tech} className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-zinc-300 hover:bg-white/10 transition-colors">
-                                                        <TechIcon className="w-4 h-4" />
-                                                    </span>
-                                                );
-                                            })}
+                                            {project.technologies && Array.isArray(project.technologies) && project.technologies.map((tech, idx) => (
+                                                <span key={idx} className="text-xs font-medium px-3 py-1 rounded-full bg-white/5 text-zinc-300">
+                                                    {tech}
+                                                </span>
+                                            ))}
                                         </div>
                                         
                                         <div className="flex items-center gap-3">
                                             {project.github_url && (
-                                                <a href={project.github_url} target="_blank" rel="noopener noreferrer" title="Source Code" className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors border border-white/10">
+                                                <a href={project.github_url} target="_blank" rel="noopener noreferrer" title="Source Code" className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors">
                                                     <FaGithub className="w-4 h-4" />
                                                 </a>
                                             )}
                                             {project.live_url && (
-                                                <a href={project.live_url} target="_blank" rel="noopener noreferrer" title="Live Preview" className="p-2 rounded-full bg-brand/10 text-brand hover:bg-brand/20 transition-colors border border-brand/20">
+                                                <a href={project.live_url} target="_blank" rel="noopener noreferrer" title="Live Preview" className="p-2 rounded-full bg-brand/10 text-brand hover:bg-brand/20 transition-colors">
                                                     <ExternalLink className="w-4 h-4" />
                                                 </a>
                                             )}
