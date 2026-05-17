@@ -6,7 +6,7 @@ use Filament\Auth\Pages\Login as BaseAuth;
 
 class CustomLogin extends BaseAuth
 {
-    protected static string $view = 'filament.pages.auth.custom-login';
+    protected string $view = 'filament.pages.auth.custom-login';
 
     public function form(\Filament\Forms\Form $form): \Filament\Forms\Form
     {
