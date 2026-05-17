@@ -19,13 +19,32 @@ class CvUploader extends Page implements HasForms
 {
     use InteractsWithForms;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
-    protected static ?string $navigationLabel = 'AI CV Parser';
-    protected static string|\UnitEnum|null $navigationGroup = 'Profile Management';
-    protected static ?string $title = 'Auto-Fill Profile with AI (CV Upload)';
-    protected static ?int $navigationSort = 1;
+    public static function getNavigationIcon(): string|\BackedEnum|null
+    {
+        return 'heroicon-o-document-text';
+    }
 
-    protected static string $view = 'filament.pages.cv-uploader';
+    public static function getNavigationLabel(): string
+    {
+        return 'AI CV Parser';
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return 'Profile Management';
+    }
+
+    public function getTitle(): string|\Illuminate\Contracts\Support\Htmlable
+    {
+        return 'Auto-Fill Profile with AI (CV Upload)';
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return 1;
+    }
+
+    protected string $view = 'filament.pages.cv-uploader';
 
     public ?array $data = [];
 
@@ -34,16 +53,16 @@ class CvUploader extends Page implements HasForms
         $this->form->fill();
     }
 
-    public function form(Form $form): Form
+    public function form(\Filament\Schemas\Schema $schema): \Filament\Schemas\Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 FileUpload::make('cv_file')
                     ->label('Upload Your CV Document (PDF)')
                     ->acceptedFileTypes(['application/pdf'])
                     ->helperText('Upload a PDF version of your CV. Our AI will automatically extract and fill your Summary, Experiences, and Educations.')
                     ->required()
-                    ->directory('temp_cvs'),
+                    ->storeFiles(false),
             ])
             ->statePath('data');
     }
@@ -51,15 +70,22 @@ class CvUploader extends Page implements HasForms
     public function processCv()
     {
         $data = $this->form->getState();
-        $filePath = Storage::disk('public')->path($data['cv_file']);
+        $file = is_array($data['cv_file']) ? array_values($data['cv_file'])[0] : $data['cv_file'];
+        
+        if (! $file instanceof \Livewire\Features\SupportFileUploads\TemporaryUploadedFile) {
+            Notification::make()->title('Invalid file upload')->danger()->send();
+            return;
+        }
+
+        $fullPath = $file->getRealPath();
         
         try {
             $parser = new Parser();
-            $pdf = $parser->parseFile($filePath);
+            $pdf = $parser->parseFile($fullPath);
             $text = $pdf->getText();
             $text = substr($text, 0, 15000); // Limit tokens
         } catch (\Exception $e) {
-            Notification::make()->title('Failed to read PDF file')->danger()->send();
+            Notification::make()->title('Failed to read PDF file')->body($e->getMessage() . ' Path: ' . $fullPath)->danger()->send();
             return;
         }
 
@@ -103,7 +129,7 @@ CV Text:
             return;
         }
 
-        $response = Http::withHeaders([
+        $response = Http::withoutVerifying()->withHeaders([
             'Content-Type' => 'application/json',
         ])->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={$apiKey}", [
             'contents' => [
@@ -162,7 +188,8 @@ CV Text:
                 Notification::make()->title('AI failed to return valid JSON.')->danger()->send();
             }
         } else {
-            Notification::make()->title('AI API Connection Error')->danger()->send();
+            $errorMsg = $response->json('error.message') ?? 'Unknown error';
+            Notification::make()->title('AI API Error: ' . $response->status())->body($errorMsg)->danger()->send();
         }
     }
 }
