@@ -25,13 +25,13 @@ class ExperienceForm
                 DatePicker::make('end_date')
                     ->native(false)
                     ->displayFormat('M Y')
-                    ->disabled(fn (\Filament\Forms\Get $get) => $get('is_current'))
-                    ->dehydrated(fn (\Filament\Forms\Get $get) => !$get('is_current')),
+                    ->disabled(fn ($get) => $get('is_current'))
+                    ->dehydrated(fn ($get) => !$get('is_current')),
                 Textarea::make('description')
                     ->columnSpanFull(),
                 Toggle::make('is_current')
                     ->live()
-                    ->afterStateUpdated(function (\Filament\Forms\Set $set, $state) {
+                    ->afterStateUpdated(function ($set, $state) {
                         if ($state) {
                             $set('end_date', null);
                         }
