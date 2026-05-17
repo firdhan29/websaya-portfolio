@@ -1,63 +1,82 @@
-<div class="flex items-center justify-center min-h-screen relative overflow-hidden bg-white selection:bg-brand/30 selection:text-brand">
-    {{-- Background Animations --}}
-    <div class="absolute inset-0 z-0">
-        <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-purple-500/10 rounded-full blur-[100px] animate-pulse"></div>
-        <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-blue-500/10 rounded-full blur-[100px] animate-pulse" style="animation-delay: 2s;"></div>
+<div class="flex min-h-screen bg-white font-sans antialiased text-gray-900">
+    
+    {{-- Left Side: Branding / Image --}}
+    <div class="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-[#6366f1]">
+        <!-- Modern mesh gradient background -->
+        <div class="absolute inset-0 bg-gradient-to-br from-[#4f46e5] via-[#7c3aed] to-[#2563eb] opacity-90"></div>
+        
+        <!-- Decorative animated blobs -->
+        <div class="absolute top-0 left-0 w-96 h-96 bg-pink-500 rounded-full mix-blend-screen filter blur-[80px] opacity-40 animate-blob"></div>
+        <div class="absolute top-0 right-0 w-96 h-96 bg-purple-400 rounded-full mix-blend-screen filter blur-[80px] opacity-40 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-8 left-20 w-96 h-96 bg-blue-400 rounded-full mix-blend-screen filter blur-[80px] opacity-40 animate-blob animation-delay-4000"></div>
+
+        <div class="relative z-10 flex flex-col items-center justify-center w-full h-full text-white p-16 text-center">
+            <div class="mb-10 p-6 bg-white/10 backdrop-blur-md rounded-3xl border border-white/20 shadow-2xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                </svg>
+            </div>
+            <h1 class="text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-tight">Portfolio<br/>Firdhan Vandaru</h1>
+            <p class="text-lg lg:text-xl text-indigo-100 max-w-md font-medium leading-relaxed">Kelola proyek, tampilkan karya terbaik Anda, dan raih lebih banyak klien profesional.</p>
+        </div>
     </div>
 
-    <div class="relative z-10 w-full max-w-md px-6 py-12 mx-auto">
-        <div 
-            class="bg-white/80 backdrop-blur-xl border border-gray-100 shadow-2xl rounded-[2rem] p-8 sm:p-10 transform transition-all hover:scale-[1.01]"
-            x-data="{ mounted: false }"
-            x-init="setTimeout(() => mounted = true, 100)"
-            :class="mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'"
-            style="transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);"
-        >
-            <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold text-gray-900 tracking-tight mb-2">Selamat Datang!</h2>
-                <p class="text-sm text-gray-500 font-medium">Masuk untuk memulai atau mengelola portofolio.</p>
+    {{-- Right Side: Login Form --}}
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12 xl:p-24 bg-white relative">
+        <div class="w-full max-w-md space-y-10 relative z-10">
+            <div class="text-center lg:text-left">
+                <div class="lg:hidden flex justify-center mb-8">
+                    <div class="p-4 bg-indigo-50 rounded-2xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-indigo-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <h2 class="text-4xl font-bold text-gray-900 tracking-tight">Selamat Datang! 👋</h2>
+                <p class="mt-3 text-base text-gray-500 font-medium">Silakan masuk ke akun Anda untuk melanjutkan.</p>
             </div>
 
-            <form wire:submit="authenticate">
+            <form wire:submit="authenticate" class="mt-8 space-y-6">
                 {{ $this->form }}
 
-                <button 
-                    type="submit" 
-                    class="w-full flex items-center justify-center gap-2 mt-6 bg-[#6366f1] hover:bg-[#4f46e5] text-white font-semibold py-3.5 px-4 rounded-xl transition-all active:scale-95 shadow-lg shadow-indigo-500/30 group"
-                >
+                <button type="submit" class="w-full flex justify-center items-center gap-2 py-4 px-4 border border-transparent rounded-2xl shadow-xl shadow-indigo-600/20 text-sm font-bold text-white bg-[#6366f1] hover:bg-[#4f46e5] focus:outline-none focus:ring-4 focus:ring-indigo-500/30 transition-all active:scale-[0.98] mt-8 group">
                     <span>MASUK SEKARANG</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 group-hover:animate-bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 group-hover:translate-x-1 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
                     </svg>
                 </button>
             </form>
-
+            
             <div class="mt-10 text-center">
-                <p class="text-xs text-gray-400 font-medium">Sistem portofolio terproteksi. Hubungi Admin jika ada masalah.</p>
+                <p class="text-xs text-gray-400 font-semibold uppercase tracking-wider">Sistem Portofolio Terproteksi</p>
             </div>
         </div>
     </div>
 
     <style>
-        /* Override default Filament Form Styles to match the sleek white look */
-        .fi-form {
-            gap: 1.5rem !important;
+        /* Smooth Blob Animations */
+        @keyframes blob {
+            0% { transform: translate(0px, 0px) scale(1); }
+            33% { transform: translate(30px, -50px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+            100% { transform: translate(0px, 0px) scale(1); }
         }
-        .fi-fo-field-wrp-label {
-            display: flex;
+        .animate-blob {
+            animation: blob 8s infinite cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .fi-fo-field-wrp-label span {
-            color: #6b7280 !important; /* gray-500 */
-            font-size: 0.75rem !important;
-            font-weight: 700 !important;
-            text-transform: uppercase !important;
-            letter-spacing: 0.05em !important;
-        }
+        .animation-delay-2000 { animation-delay: 2s; }
+        .animation-delay-4000 { animation-delay: 4s; }
+        
+        /* Clean up Filament form overrides to make it match the design perfectly */
+        .fi-form { gap: 1.5rem !important; }
+        
+        /* Style inputs beautifully */
         .fi-input-wrp {
-            box-shadow: none !important;
-            border-radius: 0.75rem !important;
+            border-radius: 1rem !important;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05) !important;
+            border: 1px solid #e5e7eb !important;
             background-color: #f9fafb !important;
-            border: 1px solid #f3f4f6 !important;
             transition: all 0.2s ease !important;
         }
         .fi-input-wrp:focus-within {
@@ -66,21 +85,19 @@
             box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1) !important;
         }
         .fi-input {
-            padding: 0.75rem 1rem !important;
+            padding: 0.875rem 1rem !important;
             color: #111827 !important;
+            background: transparent !important;
         }
-        .fi-checkbox-input {
-            border-radius: 50% !important;
-            border-color: #d1d5db !important;
-            color: #6366f1 !important;
+        
+        /* Label styling */
+        .fi-fo-field-wrp-label span {
+            color: #4b5563 !important;
+            font-size: 0.875rem !important;
+            font-weight: 600 !important;
         }
-        .fi-checkbox-input:checked {
-            background-color: #6366f1 !important;
-            border-color: #6366f1 !important;
-        }
-        /* Hide the default Filament login button since we use our own */
-        .fi-btn-primary {
-            display: none !important;
-        }
+        
+        /* Hide filament default submit button since we have our custom one */
+        .fi-btn-primary { display: none !important; } 
     </style>
 </div>
