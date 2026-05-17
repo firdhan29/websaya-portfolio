@@ -29,6 +29,15 @@ class ProjectForm
                         'PostgreSQL', 'PHP', 'JavaScript', 'TypeScript', 'Node.js', 
                         'Next.js', 'Inertia.js', 'Bootstrap', 'Framer Motion', 'Alpine.js', 'Livewire'
                     ]),
+                \Filament\Forms\Components\FileUpload::make('images')
+                    ->label('Project Images (Auto Slide)')
+                    ->directory('projects')
+                    ->disk('public')
+                    ->image()
+                    ->multiple()
+                    ->reorderable()
+                    ->panelLayout('grid')
+                    ->columnSpanFull(),
             ]);
     }
 }

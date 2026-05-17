@@ -54,6 +54,53 @@ const getDynamicColor = (name) => {
 // COMPONENTS
 // -----------------------------------------------------
 
+const AutoSlider = ({ images }) => {
+    const [currentIndex, setCurrentIndex] = React.useState(0);
+
+    React.useEffect(() => {
+        if (!images || images.length <= 1) return;
+        const interval = setInterval(() => {
+            setCurrentIndex((prev) => (prev + 1) % images.length);
+        }, 3000); // Auto slide every 3 seconds
+        return () => clearInterval(interval);
+    }, [images]);
+
+    if (!images || images.length === 0) return null;
+
+    return (
+        <div className="relative w-full h-48 sm:h-64 rounded-xl overflow-hidden mb-6 bg-zinc-900/50 border border-white/10 group-hover:border-white/20 transition-colors">
+            {images.map((img, idx) => (
+                <motion.img
+                    key={idx}
+                    src={`/storage/${img}`}
+                    alt={`Project screenshot ${idx + 1}`}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    initial={{ opacity: 0, scale: 1.05 }}
+                    animate={{ 
+                        opacity: currentIndex === idx ? 1 : 0,
+                        scale: currentIndex === idx ? 1 : 1.05
+                    }}
+                    transition={{ duration: 0.8, ease: "easeInOut" }}
+                />
+            ))}
+            
+            {images.length > 1 && (
+                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+                    {images.map((_, idx) => (
+                        <div
+                            key={idx}
+                            onClick={() => setCurrentIndex(idx)}
+                            className={`w-1.5 h-1.5 rounded-full cursor-pointer transition-all duration-300 ${
+                                currentIndex === idx ? "bg-brand w-4" : "bg-white/40 hover:bg-white/60"
+                            }`}
+                        />
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+};
+
 export default function Portfolio({ user, projects, experiences, skills }) {
     const navItems = [
         { name: "About", icon: User, href: "#about" },
@@ -303,6 +350,8 @@ export default function Portfolio({ user, projects, experiences, skills }) {
                                                 Featured
                                             </div>
                                         )}
+                                        
+                                        <AutoSlider images={project.images} />
                                         
                                         <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-brand-light transition-colors">{project.title}</h3>
                                         

@@ -12,11 +12,13 @@ class Project extends Model
         'github_url',
         'live_url',
         'is_featured',
-        'technologies'
+        'technologies',
+        'images',
     ];
 
     protected $casts = [
         'is_featured' => 'boolean',
         'technologies' => 'array',
+        'images' => 'array',
     ];
 }
