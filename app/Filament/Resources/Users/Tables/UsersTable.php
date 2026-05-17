@@ -31,21 +31,30 @@ class UsersTable
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('phone_wa')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('linkedin_url')
-                    ->searchable(),
+                    ->searchable()
+                    ->limit(20)
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('github_url')
-                    ->searchable(),
+                    ->searchable()
+                    ->limit(20)
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('location_province')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('location_city')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
             ])
             ->recordActions([
-                EditAction::make(),
+                EditAction::make()
+                    ->button()
+                    ->outlined(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

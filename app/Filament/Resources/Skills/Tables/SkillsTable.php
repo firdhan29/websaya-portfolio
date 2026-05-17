@@ -38,7 +38,9 @@ class SkillsTable
                 //
             ])
             ->recordActions([
-                EditAction::make(),
+                EditAction::make()
+                    ->button()
+                    ->outlined(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
