@@ -402,11 +402,14 @@ export default function Portfolio({ user, projects, experiences, skills }) {
                                                     try { techs = JSON.parse(project.technologies); } 
                                                     catch(e) { techs = project.technologies.split(','); }
                                                 }
-                                                return techs.map((tech, idx) => (
-                                                    <span key={idx} className="text-xs font-medium px-3 py-1 rounded-full bg-white/5 text-zinc-300">
-                                                        {tech}
-                                                    </span>
-                                                ));
+                                                return techs.map((tech, idx) => {
+                                                    const TechIcon = getDynamicIcon(tech) || Code2;
+                                                    return (
+                                                        <div key={idx} title={tech} className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-zinc-300 hover:bg-white/10 transition-colors">
+                                                            <TechIcon className="w-4 h-4" />
+                                                        </div>
+                                                    );
+                                                });
                                             })()}
                                         </div>
                                         
