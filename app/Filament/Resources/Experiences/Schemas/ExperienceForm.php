@@ -19,11 +19,23 @@ class ExperienceForm
                 TextInput::make('position')
                     ->required(),
                 DatePicker::make('start_date')
-                    ->required(),
-                DatePicker::make('end_date'),
+                    ->required()
+                    ->native(false)
+                    ->displayFormat('M Y'),
+                DatePicker::make('end_date')
+                    ->native(false)
+                    ->displayFormat('M Y')
+                    ->disabled(fn (\Filament\Forms\Get $get) => $get('is_current'))
+                    ->dehydrated(fn (\Filament\Forms\Get $get) => !$get('is_current')),
                 Textarea::make('description')
                     ->columnSpanFull(),
                 Toggle::make('is_current')
+                    ->live()
+                    ->afterStateUpdated(function (\Filament\Forms\Set $set, $state) {
+                        if ($state) {
+                            $set('end_date', null);
+                        }
+                    })
                     ->required(),
                 \Filament\Forms\Components\FileUpload::make('attachment')
                     ->label('Attachments (Photos/Documents)')

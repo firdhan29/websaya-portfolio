@@ -247,9 +247,9 @@ export default function Portfolio({ user, projects, experiences, skills }) {
                                             <p className="text-brand-light font-medium">{exp.company}</p>
                                         </div>
                                         <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-xs text-zinc-400 whitespace-nowrap">
-                                            {new Date(exp.start_date).toLocaleDateString('id-ID', { month: 'short', year: 'numeric' })} 
+                                            {new Date(exp.start_date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })} 
                                             {' - '} 
-                                            {exp.is_current ? 'Present' : (exp.end_date ? new Date(exp.end_date).toLocaleDateString('id-ID', { month: 'short', year: 'numeric' }) : 'Unknown')}
+                                            {exp.is_current ? <span className="text-emerald-400 font-semibold">Present</span> : (exp.end_date ? new Date(exp.end_date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'Unknown')}
                                         </span>
                                     </div>
                                     

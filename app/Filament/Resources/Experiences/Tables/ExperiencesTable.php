@@ -20,11 +20,13 @@ class ExperiencesTable
                 TextColumn::make('position')
                     ->searchable(),
                 TextColumn::make('start_date')
-                    ->date()
+                    ->date('M Y')
                     ->sortable(),
                 TextColumn::make('end_date')
-                    ->date()
-                    ->sortable(),
+                    ->formatStateUsing(fn ($state, $record) => $record->is_current ? 'Present' : \Carbon\Carbon::parse($state)->format('M Y'))
+                    ->sortable()
+                    ->badge()
+                    ->color(fn ($record) => $record->is_current ? 'success' : 'gray'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
