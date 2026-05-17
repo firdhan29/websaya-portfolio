@@ -39,6 +39,13 @@ class AdminPanelProvider extends PanelProvider
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
             ])
+            ->navigationItems([
+                \Filament\Navigation\NavigationItem::make('Lihat Website')
+                    ->url(fn (): string => url('/'))
+                    ->icon('heroicon-o-globe-alt')
+                    ->sort(100)
+                    ->openUrlInNewTab(),
+            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
