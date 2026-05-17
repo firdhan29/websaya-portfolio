@@ -6,8 +6,8 @@
 
         <div class="relative z-10">
             <div class="flex items-center gap-5 mb-8">
-                <div class="flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-500 to-indigo-600 text-white shadow-lg">
-                    <x-heroicon-o-sparkles class="w-8 h-8 animate-pulse" />
+                <div class="flex items-center justify-center w-14 h-14 shrink-0 rounded-2xl bg-gradient-to-br from-primary-500 to-indigo-600 text-white shadow-lg">
+                    <x-heroicon-o-sparkles class="animate-pulse" style="width: 32px; height: 32px;" />
                 </div>
                 <div>
                     <h2 class="text-2xl font-black text-gray-900 dark:text-white tracking-tight">AI Resume Engine</h2>
