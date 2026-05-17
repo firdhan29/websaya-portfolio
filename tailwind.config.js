@@ -15,6 +15,14 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                brand: {
+                    DEFAULT: '#3b82f6',
+                    light: '#60a5fa',
+                    dark: '#2563eb',
+                },
+                background: '#050505',
+            }
         },
     },
 
