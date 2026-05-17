@@ -63,6 +63,46 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->renderHook(
+                \Filament\View\PanelsRenderHook::HEAD_END,
+                fn (): string => \Illuminate\Support\Facades\Blade::render('
+                    <style>
+                        /* Animated Login UI */
+                        .fi-simple-main { 
+                            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+                            opacity: 0; 
+                            transform: translateY(30px) scale(0.95);
+                        }
+                        .fi-simple-page {
+                            background: radial-gradient(circle at 50% -20%, rgba(99,102,241,0.15) 0%, rgba(15,23,42,1) 100%) !important;
+                        }
+                        .fi-simple-main-ctn > div {
+                            backdrop-filter: blur(20px);
+                            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.1);
+                            border: 1px solid rgba(255, 255, 255, 0.05);
+                            border-radius: 1.5rem;
+                            overflow: hidden;
+                            position: relative;
+                        }
+                        .fi-simple-main-ctn > div::before {
+                            content: "";
+                            position: absolute;
+                            top: 0; left: 0; right: 0; height: 4px;
+                            background: linear-gradient(90deg, #6366f1, #a855f7, #ec4899);
+                        }
+                        .fi-btn {
+                            transition: all 0.3s ease;
+                        }
+                        .fi-btn:hover {
+                            transform: translateY(-2px);
+                            box-shadow: 0 10px 20px -10px rgba(99,102,241,0.5);
+                        }
+                        @keyframes slideUp { 
+                            to { opacity: 1; transform: translateY(0) scale(1); } 
+                        }
+                    </style>
+                '),
+            );
     }
 }
