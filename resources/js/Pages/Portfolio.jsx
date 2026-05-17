@@ -1,7 +1,7 @@
 import React from 'react';
 import { Head } from '@inertiajs/react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { User, Code2, Briefcase, Mail, ArrowRight, Server, Layout, Database, Smartphone, Terminal, X } from 'lucide-react';
+import { User, Code2, Briefcase, Mail, ArrowRight, Server, Layout, Database, Smartphone, Terminal, X, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import * as SiIcons from "react-icons/si";
 
@@ -54,53 +54,85 @@ const getDynamicColor = (name) => {
 // COMPONENTS
 // -----------------------------------------------------
 
-const AutoSlider = ({ images, onClick, isZoomed = false }) => {
+const AutoSlider = ({ images, onClick, isZoomed = false, index = 0 }) => {
     const [currentIndex, setCurrentIndex] = React.useState(0);
+    const [isHovered, setIsHovered] = React.useState(false);
 
     React.useEffect(() => {
-        if (!images || images.length <= 1) return;
+        if (!images || images.length <= 1 || isHovered) return;
         const interval = setInterval(() => {
             setCurrentIndex((prev) => (prev + 1) % images.length);
-        }, 3000); // Auto slide every 3 seconds
+        }, 5000);
         return () => clearInterval(interval);
-    }, [images]);
+    }, [images, isHovered]);
+
+    const nextImage = (e) => {
+        e.stopPropagation();
+        setCurrentIndex((prev) => (prev + 1) % images.length);
+    };
+
+    const prevImage = (e) => {
+        e.stopPropagation();
+        setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+    };
 
     if (!images || images.length === 0) return null;
 
     return (
         <div 
             onClick={onClick}
-            className={`relative w-full overflow-hidden bg-zinc-900 ${
-                isZoomed ? "h-full" : "h-56 sm:h-64 cursor-pointer group-hover:opacity-90 transition-opacity"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            className={`relative w-full overflow-hidden bg-zinc-900/50 ${
+                isZoomed ? "h-full" : `h-64 sm:h-80 cursor-zoom-in ${index === 2 ? 'md:h-96' : ''}`
             }`}
         >
-            {images.map((img, idx) => (
+            <AnimatePresence mode="wait">
                 <motion.img
-                    key={idx}
-                    src={`/storage/${img}`}
-                    alt={`Project screenshot ${idx + 1}`}
-                    className={`absolute inset-0 w-full h-full ${isZoomed ? "object-contain" : "object-cover"}`}
-                    initial={{ opacity: 0, scale: isZoomed ? 1 : 1.05 }}
-                    animate={{ 
-                        opacity: currentIndex === idx ? 1 : 0,
-                        scale: isZoomed ? 1 : (currentIndex === idx ? 1 : 1.05)
-                    }}
-                    transition={{ duration: 0.8, ease: "easeInOut" }}
+                    key={currentIndex}
+                    src={`/storage/${images[currentIndex]}`}
+                    alt={`Project screenshot ${currentIndex + 1}`}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.4 }}
+                    className={`absolute inset-0 w-full h-full transform transition-transform duration-700 ease-out ${
+                        isZoomed ? "object-contain" : "object-contain object-top group-hover:scale-105"
+                    }`}
                 />
-            ))}
+            </AnimatePresence>
+
+            {!isZoomed && (
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors z-10 pointer-events-none" />
+            )}
             
             {images.length > 1 && (
-                <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
-                    {images.map((_, idx) => (
-                        <div
-                            key={idx}
-                            onClick={(e) => { e.stopPropagation(); setCurrentIndex(idx); }}
-                            className={`w-1.5 h-1.5 rounded-full cursor-pointer transition-all duration-300 ${
-                                currentIndex === idx ? "bg-brand w-4" : "bg-white/40 hover:bg-white/60"
-                            }`}
-                        />
-                    ))}
-                </div>
+                <>
+                    <button 
+                        onClick={prevImage}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full bg-black/50 border border-white/10 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/80"
+                    >
+                        <ChevronLeft className="w-5 h-5" />
+                    </button>
+                    <button 
+                        onClick={nextImage}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 z-20 p-2 rounded-full bg-black/50 border border-white/10 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/80"
+                    >
+                        <ChevronRight className="w-5 h-5" />
+                    </button>
+
+                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex gap-2">
+                        {images.map((_, idx) => (
+                            <div
+                                key={idx}
+                                onClick={(e) => { e.stopPropagation(); setCurrentIndex(idx); }}
+                                className={`w-1.5 h-1.5 rounded-full cursor-pointer transition-all duration-300 ${
+                                    currentIndex === idx ? "bg-white w-4" : "bg-white/40 hover:bg-white/60"
+                                }`}
+                            />
+                        ))}
+                    </div>
+                </>
             )}
         </div>
     );
@@ -342,50 +374,41 @@ export default function Portfolio({ user, projects, experiences, skills }) {
                         {projects?.length > 0 ? projects.map((project, i) => (
                             <motion.div 
                                 key={project.id}
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "-100px" }}
-                                transition={{ duration: 0.5, delay: 0 }}
-                                className="group relative rounded-[2rem] overflow-hidden bg-[#0a0a0a] border border-white/5 hover:border-white/10 transition-all flex flex-col"
+                                transition={{ duration: 0.6, delay: 0 }}
+                                className={`group relative rounded-3xl overflow-hidden border border-white/10 bg-white/[0.02] ${i === 2 ? 'md:col-span-2' : ''}`}
                             >
-                                <AutoSlider images={project.images} onClick={() => setZoomedImage(project.images)} />
+                                <AutoSlider images={project.images} onClick={() => setZoomedImage(project.images)} index={i} />
                                 
-                                <div className="p-6 sm:p-8 flex flex-col flex-1">
-                                    {project.is_featured && (
-                                        <div className="self-start mb-4 px-3 py-1 bg-brand/10 border border-brand/30 text-brand text-xs font-semibold rounded-full">
-                                            Featured
-                                        </div>
-                                    )}
-                                    
-                                    <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-brand-light transition-colors">{project.title}</h3>
-                                    
-                                    <p className="text-zinc-400 mb-8 leading-relaxed text-sm">
+                                <div className="p-8 relative z-20 bg-black/80 backdrop-blur-md border-t border-white/5 flex flex-col h-full">
+                                    <h3 className="text-2xl font-bold mb-3 group-hover:text-brand-light transition-colors">{project.title}</h3>
+                                    <p className="text-zinc-400 mb-6 leading-relaxed">
                                         {project.description}
                                     </p>
-
-                                    <div className="flex justify-between items-center mt-auto pt-6 border-t border-white/5">
-                                        {project.technologies && Array.isArray(project.technologies) && (
-                                            <div className="flex gap-2">
-                                                {project.technologies.map((tech, idx) => {
-                                                    const TechIcon = getDynamicIcon(tech) || Code2;
-                                                    return (
-                                                        <div key={idx} title={tech} className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-zinc-300 hover:bg-white/10 transition-colors">
-                                                            <TechIcon className="w-4 h-4" />
-                                                        </div>
-                                                    );
-                                                })}
-                                            </div>
-                                        )}
-
-                                        <div className="flex gap-3">
+                                    
+                                    <div className="flex items-center justify-between mt-auto">
+                                        <div className="flex flex-wrap gap-2">
+                                            {project.technologies && Array.isArray(project.technologies) && project.technologies.map((tech, idx) => {
+                                                const TechIcon = getDynamicIcon(tech) || Code2;
+                                                return (
+                                                    <span key={idx} title={tech} className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-zinc-300 hover:bg-white/10 transition-colors">
+                                                        <TechIcon className="w-4 h-4" />
+                                                    </span>
+                                                );
+                                            })}
+                                        </div>
+                                        
+                                        <div className="flex items-center gap-3">
                                             {project.github_url && (
-                                                <a href={project.github_url} target="_blank" rel="noreferrer" title="Source Code" className="w-9 h-9 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/20 text-white transition-all border border-white/10">
+                                                <a href={project.github_url} target="_blank" rel="noopener noreferrer" title="Source Code" className="p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors border border-white/10">
                                                     <FaGithub className="w-4 h-4" />
                                                 </a>
                                             )}
                                             {project.live_url && (
-                                                <a href={project.live_url} target="_blank" rel="noreferrer" title="Live Preview" className="w-9 h-9 flex items-center justify-center rounded-full bg-brand/20 hover:bg-brand text-brand-light hover:text-white transition-all border border-brand/30 hover:border-brand">
-                                                    <ArrowRight className="w-4 h-4 -rotate-45" />
+                                                <a href={project.live_url} target="_blank" rel="noopener noreferrer" title="Live Preview" className="p-2 rounded-full bg-brand/10 text-brand hover:bg-brand/20 transition-colors border border-brand/20">
+                                                    <ExternalLink className="w-4 h-4" />
                                                 </a>
                                             )}
                                         </div>
