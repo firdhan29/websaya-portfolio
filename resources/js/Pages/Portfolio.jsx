@@ -387,19 +387,27 @@ export default function Portfolio({ user, projects, experiences, skills }) {
                             >
                                 <AutoSlider images={project.images} onClick={() => setZoomedImage(project.images)} index={i} />
                                 
-                                <div className="p-8 relative z-20 bg-background/80 backdrop-blur-md border-t border-white/5 flex flex-col h-full">
+                                <div className="p-8 relative z-20 bg-[#0a0a0a]/80 backdrop-blur-md border-t border-white/5">
                                     <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-brand-light transition-colors">{project.title}</h3>
                                     <p className="text-zinc-400 mb-6 leading-relaxed">
                                         {project.description}
                                     </p>
                                     
-                                    <div className="flex items-center justify-between mt-auto">
+                                    <div className="flex items-center justify-between">
                                         <div className="flex flex-wrap gap-2">
-                                            {project.technologies && Array.isArray(project.technologies) && project.technologies.map((tech, idx) => (
-                                                <span key={idx} className="text-xs font-medium px-3 py-1 rounded-full bg-white/5 text-zinc-300">
-                                                    {tech}
-                                                </span>
-                                            ))}
+                                            {(() => {
+                                                let techs = [];
+                                                if (Array.isArray(project.technologies)) techs = project.technologies;
+                                                else if (typeof project.technologies === 'string') {
+                                                    try { techs = JSON.parse(project.technologies); } 
+                                                    catch(e) { techs = project.technologies.split(','); }
+                                                }
+                                                return techs.map((tech, idx) => (
+                                                    <span key={idx} className="text-xs font-medium px-3 py-1 rounded-full bg-white/5 text-zinc-300">
+                                                        {tech}
+                                                    </span>
+                                                ));
+                                            })()}
                                         </div>
                                         
                                         <div className="flex items-center gap-3">
