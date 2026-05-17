@@ -21,7 +21,7 @@ class CvUploader extends Page implements HasForms
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static ?string $navigationLabel = 'AI CV Parser';
-    protected static ?string $navigationGroup = 'Profile Management';
+    protected static string|\UnitEnum|null $navigationGroup = 'Profile Management';
     protected static ?string $title = 'Auto-Fill Profile with AI (CV Upload)';
     protected static ?int $navigationSort = 1;
 
