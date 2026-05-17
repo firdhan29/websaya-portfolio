@@ -36,7 +36,7 @@ const getTechIcon = (techName) => {
     return technologyIcons[key] || <Code className="w-6 h-6 text-gray-400" />;
 };
 
-export default function Portfolio({ user, projects, experiences }) {
+export default function Portfolio({ user, projects, experiences, skills }) {
     return (
         <div className="min-h-screen bg-gray-950 text-white font-sans selection:bg-indigo-500/30">
             <Head title={`Portfolio | ${user?.name || 'Developer'}`} />
@@ -110,6 +110,36 @@ export default function Portfolio({ user, projects, experiences }) {
                         </div>
                     </div>
                 </motion.section>
+
+                {/* Skills Section */}
+                {skills && skills.length > 0 && (
+                    <motion.section 
+                        id="skills"
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.6 }}
+                    >
+                        <div className="flex items-center gap-4 mb-12">
+                            <Code className="w-8 h-8 text-green-400" />
+                            <h2 className="text-3xl font-bold">Tech Stack & Skills</h2>
+                        </div>
+                        <div className="flex flex-wrap gap-4">
+                            {skills.map((skill) => (
+                                <motion.div 
+                                    key={skill.id}
+                                    whileHover={{ y: -5, scale: 1.05 }}
+                                    className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-gray-900/80 border border-gray-800 shadow-lg backdrop-blur-sm"
+                                >
+                                    {skill.logo && (
+                                        <img src={`/storage/${skill.logo}`} alt={skill.name} className="w-8 h-8 object-contain" />
+                                    )}
+                                    <span className="font-semibold text-gray-200">{skill.name}</span>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </motion.section>
+                )}
 
                 {/* Experience Timeline */}
                 <motion.section 
