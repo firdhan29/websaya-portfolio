@@ -1,7 +1,7 @@
 import React from 'react';
 import { Head } from '@inertiajs/react';
-import { motion } from 'framer-motion';
-import { User, Code2, Briefcase, Mail, ArrowRight, Server, Layout, Database, Smartphone, Terminal } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { User, Code2, Briefcase, Mail, ArrowRight, Server, Layout, Database, Smartphone, Terminal, X } from 'lucide-react';
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import * as SiIcons from "react-icons/si";
 
@@ -54,7 +54,7 @@ const getDynamicColor = (name) => {
 // COMPONENTS
 // -----------------------------------------------------
 
-const AutoSlider = ({ images }) => {
+const AutoSlider = ({ images, onClick, isZoomed = false }) => {
     const [currentIndex, setCurrentIndex] = React.useState(0);
 
     React.useEffect(() => {
@@ -68,17 +68,22 @@ const AutoSlider = ({ images }) => {
     if (!images || images.length === 0) return null;
 
     return (
-        <div className="relative w-full h-48 sm:h-64 rounded-xl overflow-hidden mb-6 bg-zinc-900/50 border border-white/10 group-hover:border-white/20 transition-colors">
+        <div 
+            onClick={onClick}
+            className={`relative w-full overflow-hidden bg-zinc-900 ${
+                isZoomed ? "h-full" : "h-56 sm:h-64 cursor-pointer group-hover:opacity-90 transition-opacity"
+            }`}
+        >
             {images.map((img, idx) => (
                 <motion.img
                     key={idx}
                     src={`/storage/${img}`}
                     alt={`Project screenshot ${idx + 1}`}
-                    className="absolute inset-0 w-full h-full object-cover"
-                    initial={{ opacity: 0, scale: 1.05 }}
+                    className={`absolute inset-0 w-full h-full ${isZoomed ? "object-contain" : "object-cover"}`}
+                    initial={{ opacity: 0, scale: isZoomed ? 1 : 1.05 }}
                     animate={{ 
                         opacity: currentIndex === idx ? 1 : 0,
-                        scale: currentIndex === idx ? 1 : 1.05
+                        scale: isZoomed ? 1 : (currentIndex === idx ? 1 : 1.05)
                     }}
                     transition={{ duration: 0.8, ease: "easeInOut" }}
                 />
@@ -89,7 +94,7 @@ const AutoSlider = ({ images }) => {
                     {images.map((_, idx) => (
                         <div
                             key={idx}
-                            onClick={() => setCurrentIndex(idx)}
+                            onClick={(e) => { e.stopPropagation(); setCurrentIndex(idx); }}
                             className={`w-1.5 h-1.5 rounded-full cursor-pointer transition-all duration-300 ${
                                 currentIndex === idx ? "bg-brand w-4" : "bg-white/40 hover:bg-white/60"
                             }`}
@@ -102,6 +107,8 @@ const AutoSlider = ({ images }) => {
 };
 
 export default function Portfolio({ user, projects, experiences, skills }) {
+    const [zoomedImage, setZoomedImage] = React.useState(null);
+
     const navItems = [
         { name: "About", icon: User, href: "#about" },
         { name: "Skills", icon: Code2, href: "#skills" },
@@ -339,49 +346,46 @@ export default function Portfolio({ user, projects, experiences, skills }) {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "-100px" }}
                                 transition={{ duration: 0.5, delay: 0 }}
-                                className="group relative rounded-3xl overflow-hidden bg-white/[0.02] border border-white/5 hover:border-white/10 transition-colors p-1"
+                                className="group relative rounded-[2rem] overflow-hidden bg-[#0a0a0a] border border-white/5 hover:border-white/10 transition-all flex flex-col"
                             >
-                                <div className="absolute inset-0 bg-gradient-to-br from-brand/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                <AutoSlider images={project.images} onClick={() => setZoomedImage(project.images)} />
                                 
-                                <div className="relative p-6 sm:p-10 h-full flex flex-col gap-8 rounded-[22px]">
-                                    <div className="flex-1 flex flex-col">
-                                        {project.is_featured && (
-                                            <div className="self-start mb-4 px-3 py-1 bg-brand/10 border border-brand/30 text-brand text-xs font-semibold rounded-full">
-                                                Featured
-                                            </div>
-                                        )}
-                                        
-                                        <AutoSlider images={project.images} />
-                                        
-                                        <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-brand-light transition-colors">{project.title}</h3>
-                                        
-                                        <p className="text-zinc-400 flex-1 mb-8 leading-relaxed">
-                                            {project.description}
-                                        </p>
+                                <div className="p-6 sm:p-8 flex flex-col flex-1">
+                                    {project.is_featured && (
+                                        <div className="self-start mb-4 px-3 py-1 bg-brand/10 border border-brand/30 text-brand text-xs font-semibold rounded-full">
+                                            Featured
+                                        </div>
+                                    )}
+                                    
+                                    <h3 className="text-2xl font-bold mb-3 text-white group-hover:text-brand-light transition-colors">{project.title}</h3>
+                                    
+                                    <p className="text-zinc-400 mb-8 leading-relaxed text-sm">
+                                        {project.description}
+                                    </p>
 
+                                    <div className="flex justify-between items-center mt-auto pt-6 border-t border-white/5">
                                         {project.technologies && Array.isArray(project.technologies) && (
-                                            <div className="flex flex-wrap gap-2 mb-8">
+                                            <div className="flex gap-2">
                                                 {project.technologies.map((tech, idx) => {
                                                     const TechIcon = getDynamicIcon(tech) || Code2;
                                                     return (
-                                                        <div key={idx} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-zinc-300">
-                                                            <TechIcon className="w-3 h-3" />
-                                                            <span>{tech}</span>
+                                                        <div key={idx} title={tech} className="w-8 h-8 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-zinc-300 hover:bg-white/10 transition-colors">
+                                                            <TechIcon className="w-4 h-4" />
                                                         </div>
                                                     );
                                                 })}
                                             </div>
                                         )}
 
-                                        <div className="flex gap-4 pt-4 border-t border-white/10 mt-auto">
+                                        <div className="flex gap-3">
                                             {project.github_url && (
-                                                <a href={project.github_url} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors text-sm font-medium">
-                                                    <FaGithub className="w-4 h-4" /> Source Code
+                                                <a href={project.github_url} target="_blank" rel="noreferrer" title="Source Code" className="w-9 h-9 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/20 text-white transition-all border border-white/10">
+                                                    <FaGithub className="w-4 h-4" />
                                                 </a>
                                             )}
                                             {project.live_url && (
-                                                <a href={project.live_url} target="_blank" rel="noreferrer" className="flex items-center gap-2 text-brand hover:text-brand-light transition-colors text-sm font-medium ml-4">
-                                                    Visit Site <ArrowRight className="w-4 h-4" />
+                                                <a href={project.live_url} target="_blank" rel="noreferrer" title="Live Preview" className="w-9 h-9 flex items-center justify-center rounded-full bg-brand/20 hover:bg-brand text-brand-light hover:text-white transition-all border border-brand/30 hover:border-brand">
+                                                    <ArrowRight className="w-4 h-4 -rotate-45" />
                                                 </a>
                                             )}
                                         </div>
@@ -395,6 +399,33 @@ export default function Portfolio({ user, projects, experiences, skills }) {
                 </section>
 
             </main>
+
+            {/* Lightbox Modal */}
+            <AnimatePresence>
+                {zoomedImage && (
+                    <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setZoomedImage(null)}
+                        className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 md:p-12 cursor-zoom-out"
+                    >
+                        <button 
+                            onClick={() => setZoomedImage(null)}
+                            className="absolute top-6 right-6 w-12 h-12 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                        >
+                            <X className="w-6 h-6" />
+                        </button>
+                        
+                        <div 
+                            onClick={(e) => e.stopPropagation()} 
+                            className="relative w-full max-w-6xl max-h-[85vh] h-full bg-black rounded-xl overflow-hidden shadow-2xl border border-white/10 cursor-default"
+                        >
+                            <AutoSlider images={zoomedImage} isZoomed={true} />
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             <footer className="py-12 mt-12 border-t border-white/10 text-center text-zinc-500">
                 <p>© {new Date().getFullYear()} {user?.name}. Portfolio Re-imagined.</p>
